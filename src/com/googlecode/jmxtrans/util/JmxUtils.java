@@ -306,6 +306,16 @@ public class JmxUtils {
 					r.addValue(obj.getCanonicalName(), obj.getKeyPropertyListString());
 				}
 				resList.add(r);
+			} else if (Map.class.isAssignableFrom(value.getClass())) {
+			    Result r = getNewResultObject(info, oi, attribute.getName(), query);
+			    Map<Object, Object> valueMap = (Map<Object, Object>) value;
+
+			    for (Object key : valueMap.keySet()) {
+			    	Object mapValue = valueMap.get(key);
+			        r.addValue(key.toString(), mapValue.toString());
+			    }
+			    resList.add(r);
+
 			} else if (value.getClass().isArray()) {
 				// OMFG: this is nutty. some of the items in the array can be
 				// primitive! great interview question!
